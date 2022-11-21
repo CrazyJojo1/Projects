@@ -1,0 +1,16 @@
+                              Apply functions
+
+1. Apply family function is a shortcut to running loops in R
+2. And it is unique to R.... no other programming languages will make use of it.
+
+What does Apply family does?
+- it applies a 'function' to an 'object' in R.
+
+1. object can be a list, a matrix, a data-frame or a vector for instance.
+2. function that you can apply have their own use case.... will be discussed later in this course.
+
+Why was Apply Family created in R??
+- R is specific to statisticians and later became part of Data-Science.
+- So Apply Family functions get rid of loops and makes it easy to work with bigdata.
+
+- Instead of Loops, you use this shortcuts (apply family functions)

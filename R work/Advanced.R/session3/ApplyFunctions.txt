@@ -1,0 +1,40 @@
+                      functions in APPLY FAMILY
+1. apply 
+- use on matrix either on the rows or on the columns. examples-
+apply(M,1,mean)#for rows
+apply(M,2,mean)#for columns
+
+2. tapply 
+- it is used on a vector to extract subgroups and apply a function to them
+
+3. by
+- use on data frames. Same concept as in group by in SQL
+
+4. epply
+- use on an environment(E)
+
+5. lapply
+- apply a function to elements of a list (L)
+
+6. sapply
+- a version of lapply. Can simplify (S) the result so it's not presented as a list.
+- the result of sapply is presented as a vector or a matrix (but not as a list)
+
+7. vapply
+- has a pre-specified type of return value(V)
+
+8. replicate
+-used to run a funciton several times. Usually used with generation of random variables
+- don't confuse it with rep() 
+
+9. mapply()
+- multivariate (M) version of sapply. Arguments can be recycled
+
+10. rapply
+- recursive (R) version of lapply
+
+What we will study in this course?
+1. apply
+2. lapply
+3. sapply
+These are the best to get started and cover all the basics that are very likely used in other apply functions.

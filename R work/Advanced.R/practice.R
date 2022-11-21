@@ -1,0 +1,456 @@
+getwd()
+setwd("~/Downloads") #~ is /Users/rajanbawa (your main directory)
+setwd("/Users/rajanbawa/Documents/R work")
+setwd("./Advanced.R") #use point if you wish to select the existing directory... no need to type the whole thing again.
+setwd("./session3")
+setwd("/Users/rajanbawa/Documents/R work/Advanced.R/session3/Weather Data")
+setwd("~/Downloads")
+#importing data
+?read.csv
+mag <- read.csv("fortune.500.csv",na.strings=c(""))
+#na.strings=c("") means to convert blank strings into NAs
+
+#exploring data
+head(mag)
+tail(mag)
+summary(mag)
+#ID, Inception should be converted to factors
+#Inception had missing data.... leave it
+#converting ID to factor
+mag$ID <- factor(mag$ID)
+#check
+summary(mag)
+#doesnot look right
+#convert it back
+mag$ID <- as.numeric(mag$ID)
+#look at missing data
+mag[!complete.cases(mag),]
+mag[is.na(mag),]
+#convert blank spaces to NA
+#suddendly the list of NAs are up
+
+#fix missing values
+#use median imputation for 8,44(revenue and expenses) , 8(growth),
+#get state (11,84,267,379) using common sense.- Done
+#derive profit(8,44) using formula (revenue-expenses) and expenses(17) using revenue-profit.
+#two industry sectors name are misssing(14,15) - 
+#Inception year is also missing (22)
+
+#use median imputation and derivation part first
+mag[is.na(mag$Revenue),]
+#wait, reveuenue and expenses has special symbols 
+summary(mag)
+#both are characters
+#use gsub() to remove special characters and then convert it into numeric 
+?gsub()
+head(mag$Revenue)
+mag$Revenue <- gsub(",","",mag$Revenue)
+mag$Revenue <- gsub("$","",mag$Revenue,fixed=TRUE)
+#explicit coercion
+mag$Revenue <- as.numeric(mag$Revenue)
+#do same do expenses
+head(mag$Expenses)
+mag$Expenses <- gsub(",","",mag$Expenses)
+mag$Expenses <- gsub("Dollars","",mag$Expenses)
+mag$Expenses <- as.numeric(mag$Expenses)
+#check if you need to do it for anything else
+summary(mag)
+#growth
+head(mag$Growth)
+mag$Growth <- gsub("%","",mag$Growth)
+mag$Growth <- as.numeric(mag$Growth)
+#fix State first
+#common sense rule
+mag[is.na(mag$State),]
+mag[is.na(mag$State) & mag$City == "New York","State"] <- "NY"
+#check
+mag[c(11,379),]
+mag[is.na(mag$State) & mag$City =="San Francisco","State"] <- "CA"
+mag[c(84,267),]
+#Median imputation method
+#use median for that particular sector to use it as a proxy
+mag[is.na(mag$Revenue),]
+#Both missing values belong to same sector 
+mag[is.na(mag$Revenue) & mag$Industry=="Construction","Revenue"] <-
+median(mag[mag$Industry=="Construction","Revenue"],na.rm = TRUE)
+#check
+mag[c(8,44),]
+#same for expenses
+mag[is.na(mag$Expenses) & mag$Industry=="Construction","Expenses"] <-
+median(mag[mag$Industry=="Construction","Expenses"],na.rm = TRUE)
+mag[c(8,44),]
+#do same for growth
+mag[is.na(mag$Growth),]
+#sector is again construction
+mag[is.na(mag$Growth) & mag$Industry=="Construction","Growth"] <-
+median(mag[mag$Industry=="Construction","Growth"],na.rm = TRUE)
+mag[8,]
+#fix profit 
+mag[is.na(mag$Profit),]
+#you can derive both values
+mag[is.na(mag$Profit) & mag$Industry=="Construction","Profit"]<-
+mag[is.na(mag$Profit) & mag$Industry=="Construction","Revenue"]-
+mag[is.na(mag$Profit) & mag$Industry=="Construction","Expenses"]
+#check
+mag[c(8,44),]
+#check missing values
+mag[!complete.cases(mag),]
+#derive expenses
+mag[is.na(mag$Expenses) & mag$Industry  == "IT Services","Expenses"] <-
+mag[is.na(mag$Expenses) & mag$Industry  == "IT Services","Revenue"]-
+mag[is.na(mag$Expenses) & mag$Industry  == "IT Services","Profit"]
+mag[17,]
+#fix employee
+summary(mag)
+mag[is.na(mag$Employees),]
+#use median imputation method
+mag[is.na(mag$Employees) & mag$Industry =="Retail","Employees"] <- 
+median(mag[mag$Industry =="Retail","Employees"],na.rm = TRUE)
+#check
+mag[3,]
+mag[is.na(mag$Employees) & mag$Industry =="Financial Services","Employees"] <-
+median(mag[mag$Industry =="Financial Services","Employees"],na.rm = TRUE)
+mag[332,]
+#check missing values
+mag[!complete.cases(mag),]
+#eliminate industry with missing values
+#create a backup first
+mag_backup <- mag
+#now remove
+mag <- mag[!is.na(mag$Industry),] 
+nrow(mag)
+mag[mag$ID==14,]
+#Removed
+mag[!complete.cases(mag),]
+#lastly fix the row number
+rownames(mag) <- 1:nrow(mag)
+rownames(mag)
+#done!
+#good boy
+
+#list
+#investigate RL1
+#data is for one month
+#idle means not used hours
+#create a list
+#import data into excel... you faced difficulty last time you imported it
+#change the working directory
+getwd()
+setwd("/Users/rajanbawa/Documents/R work/Advanced.R/session2")
+#import data
+mac <- read.csv("machine.utilization.csv")
+#explore data
+head(mac,10)
+#it has missing values
+#find total missing values
+mac[complete.cases(mac),]
+#something wrong here
+#there are 7 missing values
+mac[mac$Percent.Idle==NA,"Percent.Idle"]
+#when you filter by this then
+50==NA
+#that is what is happening
+#we need to create a list
+mylist <- list(Machine_name="RL1")
+#find min,mean and max  utilisation for the month (excluding unknown hours)
+#find utilisation first
+mac$utilisation <- 1- mac$Percent.Idle
+#check
+mac
+head(mac,20)
+tail(mac)
+#find min, mean and max
+#this should for RL1
+#form a subset for RL1
+mymachine <- mac[mac$Machine=="RL1",]
+#now find min, mean and max
+#maybe you don't need to use this subset - use mac(main data set)
+
+mymachine_min <- min(mac[mac$Machine=="RL1","utilisation"],na.rm = TRUE)
+mymachine_mean <- mean(mac[mac$Machine=="RL1","utilisation"],na.rm = TRUE)
+mymachine_max <- max(mac[mac$Machine=="RL1","utilisation"],na.rm = TRUE)
+#so utilisation has fallen below 90% as min is 84.92%
+#put these three values into a single list object
+mylist$Statistics <- c(Min = mymachine_min,Mean = mymachine_mean,Max = mymachine_max)
+#check 
+mylist
+#has utilisation ever fallenbelow90%? TRUE/FALSE
+#it has as we already know
+#use filtering to get data
+str(mac)
+mac[mac$utilisation < 0.9,"utilisation" ]
+#get the cells which has below value
+which(mac$utilisation < 0.9)
+#which() just takes logical argument meaning you just need to specify the condition
+#get total number of values
+length(which(mac$utilisation < 0.9))
+#convert this result into logical
+Util_below_0.9 <- as.logical(length(which(mac$utilisation < 0.9)))
+#add it to list
+mylist$Util_below_0.9 <- Util_below_0.9
+#check
+mylist
+#delete the list element
+mylist$Util_Fallen <- NULL
+#all hours
+#first fix the time
+#use standard time format - Posixct
+?POSIXct
+#create a backup
+mac1 <- mac
+#check what is the format
+tail(mac$Timestamp)
+#its date-month-year
+#now do explicit coercion
+mac$Timestamp <- as.POSIXct(mac$Timestamp,format="%d/%m/%yy %H:%M")
+#made a mistake
+#back it up
+mac <-mac1
+#check the summary... is it a character
+summary(mac)
+#convert it into.... should I
+mac$Timestamp <- strptime(mac$Timestamp,format="%d/%m/%y %H:%M")
+#we used some function that is new
+tail(mac$Timestamp)
+#why posixct not working
+#try it again
+mac$Timestamp <- as.POSIXct(mac$Timestamp,format="%d/%m/%y %H:%M")
+#you can either use strptime or POSIXct ....difference
+#as.POSIXct is more of explicit coercion... strptime fuction does that by itself without you stating it
+str(mac)
+mac[1:7,"Timestamp"]
+head(mac,8)
+#find utilization unknown
+Unknown_hours <-mymachine[is.na(mymachine$utilisation),"Timestamp"]
+
+mylist$Unknown_hours <- Unknown_hours
+mylist$dataset <- mymachine
+mylist
+str(mylist)
+
+getwd()
+setwd("/Users/rajanbawa/Documents/R work/Advanced.R/session3/Weather Data")
+Chicago <- read.csv("Chicago-F.csv",row.names = 1)
+#exploring data
+Chicago
+#you have first column which you can have as rownames
+#how to do that
+?read.csv
+#row.names =1 converts the first column into rownames
+#doing same for all the other cities
+Houston <- read.csv("Houston-F.csv",row.names = 1)
+NewYork <- read.csv("NewYork-F.csv",row.names = 1)
+SanFrancisco <- read.csv("SanFrancisco-F.csv",row.names = 1)
+#see all these data sets
+Houston
+NewYork
+SanFrancisco
+#five parameters
+#12months information
+#check which type of data we are working on
+class(Chicago)
+#it is a data frame
+Chicago <- as.matrix(Chicago)
+Houston <- as.matrix(Houston)
+NewYork <- as.matrix(NewYork)
+SanFrancisco <- as.matrix(SanFrancisco)
+#check the data sets
+Chicago
+Houston
+NewYork
+SanFrancisco
+#check the type
+typeof(Chicago)
+class(Chicago)
+is.matrix(Chicago)
+is.matrix(Houston)
+is.matrix(NewYork)
+is.matrix(SanFrancisco)
+rownames(Chicago)
+colnames(Chicago)
+#put all into list
+mylist2 <- list(Chicago=Chicago,
+                Houston= Houston,
+                NewYork=NewYork,
+                SanFrancisco=SanFrancisco)
+#check 
+mylist2
+is.matrix(mylist2[[2]])
+#for all five questions of our exercise we need to get table
+#a matrix
+#mistake
+#since we are to be working with matrix 
+#convert each of them into matrix first and then put into list
+#Done
+#1. A table showing showing annual average for each parameter for each city
+#Since we need a matrix(table).. we must use sapply
+?lapply
+#used on list, matrix, data frame
+#result is a list
+lapply(mylist2,rowMeans)
+#this gives us the result
+#get the table now
+average <-sapply(mylist2,rowMeans,simplify = TRUE)
+average[1,1]
+#doing the same with loops
+#step1 : initialization
+annualavg <- matrix(nrow=4,ncol=5) #this matrix is empty
+#step2 : for loop
+#we have four objects and within each object we have five parameters
+
+for(i in 1:4){
+  for(j in 1:5){
+    annualavg[i,j] <- mean(mylist2[[i]][j,])
+  }
+}
+#step3: add rownames and colnames
+colnames(annualavg) <- rownames(Chicago) 
+rownames(annualavg) <- names(mylist2)
+annualavg
+#these three steps are done in ony one step when you use sapply function.
+
+step1 : initialization
+avg <- list(0,0,0,0) #this is a empty list
+#step2 : for loop
+#we have four objects and within each object we have five parameters
+
+for(i in 1:4){
+  for(j in 1:5){
+    avg[[i]][i,j] <- mean(mylist2[[i]][j,])
+  }
+}
+mylist2[[1]][1,5]
+#step3: add rownames and colnames
+colnames(annualavg) <- rownames(Chicago) 
+rownames(annualavg) <- names(mylist2)
+annualavg
+#these three steps are done in ony one step when you use sapply function.
+
+Means(mylist2[[1]][1])
+?rowMeans
+mylist2
+mylist2[[1]][1,5]
+mylist2[[2]][1,2] #that gives you the entire row
+#exactly what we need
+mylist2[2][2,1]
+#try adding mean
+rowMeans(mylist2[[2]][1,]) #you cannot use 1-D when using rowMeans
+
+x <-1 :20
+?matrix
+X<-matrix(data=x,nrow=4,ncol=5)
+X[1,2]
+#Atable showing by how much temperature fluctuates each month from min to
+#max (in %).Take min temperature as the base
+#what is this?
+#max-min/min
+#we need a table
+#sapply
+mylist2
+mylist2$Chicago[1,]
+sapply(mylist2, function(a) (a[1,]-a[2,])/a[2,], simplify = FALSE) #sapply(object, function (body of a function))
+#data insights
+#data values represents percentage
+#0.77 will be 77% change in temperature w.r.t. the base- here the temperature fluctuation is high in Chicago for the month of Jan
+#San Francisco has least temperature change and is consistent throughout
+#most noticeable changes are in first four months and last 2 months of the year.
+
+#sapply is lapply, but is a simplified version of lapply. 
+#When you run an sapply funciton, you are actually running an lapply
+#But an additional parameters allows you to get the matrix instead of a list.
+
+#find annual maximum for each observed metrics for every city.
+#do it using function 
+#?
+#you don't have rowmax function pre-builtin in R
+#find the max
+max(mylist2$Chicago[1,])
+?lapply
+?apply
+?max
+sapply(mylist2, function(a) apply(a,1,max))
+mylist2$Chicago
+sapply(mylist2, function(a) apply(a,1,min))
+apply(Chicago,1,max)
+sapply(mylist2, apply, 1,function(a) max(a)) #nesting apply in sapply function
+sapply(mylist2, apply, 1, function(a) min(a))
+
+#table showing in which month the annual maximum for each metric was observed
+#i need month not the maximum value
+#for max value
+sapply(mylist2, apply, 1, function(a) max(a))
+#to get the particular cell that satisfy the condition- which()
+#something doesn't feel right
+#you get cell when you use which() - if I use names then I may get the name of the month
+#it does work , but some cells are not showing me the month instead you have character, 2.
+
+sapply(mylist2, apply, 1, function(a) names(which(a==max(a))))
+sapply(mylist2, apply, 1, which.max)
+sapply(mylist2, apply, 1, function(a) names(which.max(a)))
+?which.max
+#which.max is a in built function that finds cells with max value
+#which() on the other hand needs the condition for it to run.
+sapply(mylist2, function(a) apply(a,1,function(x) names(which.max(x))))
+sapply(mylist2, function(a) apply(a,1,function(x) names(which.max(x))))
+
+sapply(mylist2, function(a) apply(a,1,min))
+sapply(mylist2, apply, 1, function(a) names(which.max(a)))
+#........................
+#Creating your own function
+#goal of a funciton is to minimize work 
+#you encapusulate the code in one object and 
+#based on the specific parameter that you have sepecified in the code: you seek the outcomes
+
+function(#arguments){
+  #body of a function
+}
+
+#initlaization
+x <- matrix(nrow=4,ncol=5) 
+for(i in 1:4){
+  for(j in 1:5){
+    x[i,j] <- max(mylist2[[i]][j,])
+  }
+}
+colnames(x) <- rownames(Chicago)
+rownames(x) <- names(mylist2)
+#Check
+x
+sapply(mylist2,apply,1,max)
+apply(mylist2[[1]],1,max)
+apply(mylist2[[2]],1,max)
+cbind(Chicago=apply(mylist2[[1]],1,max),Houston=apply(mylist2[[2]],1,max))
+list(Chicago=apply(mylist2[[1]],1,max),Houston=apply(mylist2[[2]],1,max))
+#use loops to get the same result as lapply
+y <- list(0,0,0,0) 
+for(i in 1:4){
+  for(j in 1:5){
+    y[[i]][j] <- max(mylist2[[i]][j,])
+  }
+}
+y
+y[[i]][i,j] <- 
+
+#create a function that calculates the max values for each parameter in each city
+
+try <- function(data=Houston,FUN){
+  apply(data,1,FUN)
+}
+
+try(,min)
+
+mylist2
+mylist2[[1]][2,5]
+mylist2[[1]][1,]
+class(mylist2[[1]][1,])
+typeof(mylist2[[1]][1,])
+
+typeof(apply(Chicago,1, mean))
+x <- NULL #initialization
+for(i in 1:nrow(Chicago)){
+  x[i] <- mean(Chicago[i,])
+}
+x
+names(x) <- rownames(Chicago)
+Chicago
+Chicago[c(1,5),]

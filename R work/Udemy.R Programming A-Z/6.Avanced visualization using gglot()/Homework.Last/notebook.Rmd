@@ -1,0 +1,56 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+
+Homework: Plot Domestic gross % by Genre
+step1: Importing .csv file
+```{r include=FALSE}
+getwd()
+m <- read.csv("Section6-Homework-Data.csv")
+m
+```
+step2 : filter the data 
+```{r echo=TRUE}
+rectify <- (m$Genre=="action") | (m$Genre=="adventure") |
+  (m$Genre=="animation") | (m$Genre=="comedy") |
+  (m$Genre=="drama")
+rectify1 <- (m$Studio=="Buena Vista Studios") |
+  (m$Studio=="Fox") |(m$Studio=="Paramount Pictures") |
+  (m$Studio=="Sony") |(m$Studio=="Universal") |
+  (m$Studio=="WB")
+```
+step3: using subsetting to create a new data frame that contains filtered data
+```{r include=FALSE}
+m <- m[rectify&rectify1,]
+m
+```
+step4: plot using ggplot()
+```{r activating ggplot2, include=FALSE}
+library(ggplot2)
+```
+
+```{r layers, echo=TRUE}
+plot <- ggplot(data=m, aes(x=Genre,y=Gross...US))
+plot <- plot + geom_jitter(aes(color=Studio,
+                               size=Budget...mill.)) +
+  geom_boxplot(alpha=0.7,
+               outlier.color=NA)
+plot
+```
+ step5: add non-data-ink
+```{r final plot, echo=FALSE}
+plot <- plot +
+  ggtitle("Domestic Gross % by Genre") +
+  ylab("Gross % US") + #xlab remains the same 
+  theme(
+    text=element_text(family="Comic Sans MS"),
+    axis.title.x = element_text(color="Blue",size=20),
+    axis.title.y = element_text(color="Blue",size=20),
+    axis.text.x = element_text(size=10),
+    axis.text.y = element_text(size=10),
+    plot.title = element_text(size=30)
+    )
+plot
+```

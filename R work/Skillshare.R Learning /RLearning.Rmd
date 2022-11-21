@@ -1,0 +1,309 @@
+---
+title: "Learning.R"
+output: html_notebook
+---
+
+
+Vectors are data elements containing same data type.
+it is a 1-d object
+```{r}
+x <- 3:15
+x
+```
+x is a vector containing 10 vector elements
+
+In R, you work with vector. It is meant to carry vectorized operations
+```{r}
+y <- 2
+y
+```
+y is a vector containing single vector element
+
+Vector type:
+1. Numeric vector: int or double
+2. character vector
+3. logical vector
+
+vectors are enumerated means they are listed in a specific order,
+that means it allows you to call specific vector element from a vector
+```{r}
+x[4]
+```
+I am calling 4th element from a vector x.
+This also tells you that vector indexation starts from 1 and not 0(unlike arrays).
+int[1:13], tells you that vector is of length 13. 
+meaning it contains 13 vector elements
+
+Concept of implicit coercion:
+R may force change a data type without telling you.
+e.g. 
+```{r}
+a <- c("Hello","I","am","sleeping",3)
+a
+```
+Since vector needs to be of a same data type. here x is a character vector, except for 3.
+#so R will do implicit coercion and by that it means R will change 3, a numeric vector, into a character.
+And R will do this without telling you-"implicitly".
+Also
+```{r}
+b <- c(1:4,"hello")
+b
+```
+R will coerice an almost numeric vector into a character vector, if you sees even a single character vector in it.
+#to create vector, you use c() function- combine function
+
+You can also check the data type of your vector
+```{r}
+is.numeric(x)
+is.integer(x)
+is.double(x)
+is.character(a)
+is.logical(b)
+```
+logical vector will be most common in use when you are working with filtering data in a matrix or data frame. 
+
+#Three important functions
+1.seq() function
+?seq()
+seq() is a sequence generator
+```{r}
+seq(from=30,to=90,length.out=5)
+```
+length.out is how many vector elements you want to see in your output.
+```{r}
+seq(from=30,to=90,by=3)
+```
+by parameter is the gap between vector elements
+by = (from-to)/(length.out-1)
+= 63/3
+using seq() to create vectors
+```{r}
+c <- seq(50,90,length.out=10)
+c
+```
+2. colon function
+```{r}
+d <- 5:17
+d
+```
+difference between colon and seq()?
+seq() provides you additional flexibility, you can decide the length of your output, you can decide jump between vector elements.
+```{r}
+
+```
+
+3. rep() function
+```{r}
+?rep
+rep(x=3,times=5)
+rep(seq(2,10,by=1.5),length.out=15)
+```
+Square bracket 
+This is used to access individual elements of a vector
+```{r}
+x[10]
+x[-3]
+x[1:3]
+x[c(3,4,10)]
+x
+x[-1:-5]
+z <- x[-1:-5]
+z
+z[9]
+```
+x[-3] means, all elements except the third element of that vector
+x[1:3], gives you first three vectors
+x[c(3,4,10)], here vector c(3,4,10), is creating an indexation. you are calling 3rd, 4th and 10th vector element
+x[-1:-5], will delete first five vector elements from the vector list
+z <- x[-1:-5], you can use square-bracketing to create a new vector as well.
+z[9], asking a vector for an element that doesn't exist, will return you NA (meaning not available).
+
+Vectorized operation:
+Think of them as mathematical operation (adding, subracting, division, multiplication)
+vectorized operation between vectors is possible if both vectors are of same length
+Best part of R is mathematical operation with large vectors
+```{r}
+x+d
+x+d
+x/d
+x-d
+x*d
+x+z
+e <- 1:10
+f <- 1:5
+e+f
+```
+x+z, x and z are both of different length. R will still add vectors (by recycling of vectors, but it will show a warning message of sort,?, for recycling, larger vector must be a multiple of shorter vector)
+
+e+f, again e and f are of different length. But R hasn't shown any warning message as e is a multiptle of f.
+
+Vectorized vs devectorized operation:
+let's take mathematical multiplication
+1. Vectorized operation
+```{r}
+rnorm(5)
+1:5
+1:5 * rnorm(5)
+```
+2. de-vectorized operation
+```{r}
+g <- seq(3,15,length.out=10)
+h <- rep(5,10)
+k<-0
+for(j in 1:10){
+  k[j] <- print(g[j] * h[j])
+}
+k
+```
+
+so, de-vectorized operations are complex and lengthy compared to vectorized operation. And this is the reason R is perfect for statistical computing as it makes work easy.
+
+Law of large numbers
+When n approaches infinity (means your sample size is quite large), mean of the sample is equal to its fair probability.
+
+And for normal distribution :
+most values (68%) fall between (mean-sd) and (mean+sd).
+```{r}
+rnorm(1000)
+```
+rnorm() is used to get random values from a normal distribution. 
+For normal distribution, mean=0 and sd=1
+For 1000, large sample size, most values will fall between -1 and 1 ((0-1)and(0+1)).
+```{r}
+N <- 1000
+counter <- 0
+for(i in rnorm(N)){
+  if(i < 1 && i > -1){
+    counter <- counter + 1
+ }
+}
+```
+
+counter= 684/1000 = .684 = 68.4%
+This tells us that 68.4% of the rnorm(1000) values fall between -1 and 1.
+
+What is rnorm() ?
+let's open its documentation
+?rnorm
+rnorm () gives you random deviates around the mean. This function comes under normal distribution.
+rnorm(n), n stands for number of observation or sample size.
+
+```{r}
+rnorm(n=10,mean=13,sd=3)
+```
+most values of rnorm() will be between (mean-sd) and (mean+sd).
+
+Matrices
+matrices are 2-dimensional objects. 
+Each point has (x,y).
+Matrices and data frames are used to form tables.
+Difference between matrices and data frame is that:
+matrices contains elements of same type, whereas, data frame may contain mix data types.
+
+Three functions used to create a matrix:
+1. matrix() - takes a single vector and bends it into 2D object
+?matrix
+```{r}
+x <- 1:20
+matrix(x,nrow=4,ncol=5,byrow=F)
+```
+parameter byrow=TRUE, allows you to arrange the matrix row-wise
+```{r}
+A<-matrix(x,nrow=4,ncol=5,byrow=T)
+```
+Note: nrow x ncol = number of observations
+n=20 , 5x4=20, 10x2=20
+
+You will rarely use matrix().
+
+2. rbind()
+This allows you to combine objects row-wise.
+All vectors are of same length
+It is most common way to form a matrix.
+Let's see how to use it:
+```{r}
+a <- rep(5,times=10)
+b <- seq(from=200,to=300,length.out=10)
+c <- 1:10
+d <- c(2,6,7,8,4,2,3,4,2,1)
+B <- rbind(a,b,c,d)
+rownames(B) <- c("John","keth","joy","kelly")
+B <- rbind(John=a,keth=b,joy=c,kelly=d)
+colnames(B) <- letters[1:10]
+```
+John=a means you are providing rownames
+Note: rownames are character types, so use double quotations.
+
+3. cbind()- binds the vectors column-wise
+All vectors are of same length
+```{r}
+cbind(a,b,c,d)
+C <-cbind(John=a,keth=b,joy=c,kelly=d)
+```
+rbind() binds row-wise, cbind() binds column-wise.
+
+Transpose of a vector
+Transpose function is used to convert rows into columns.
+```{r}
+B
+t(B)
+C
+t(C)
+```
+When to use transpose function:
+matplot() is used to plot data column-wise. 
+If you have your vectors arranged by rbind(), then you must use t() first, and then matplot().
+
+How to call a vector element from a matrix
+nameofthematrix[row,column]  or
+nameofthematrix[rowname,columnname]
+```{r}
+B
+B[2,3]
+B["keth",3]
+```
+Note: you must use double-quotations when using names
+
+Deleting rownames and columnnames
+step1: check names
+```{r}
+rownames(B)
+colnames(B)
+```
+step2: delete names
+syntax:
+rownames(nameofmatrix) <- NULL
+```{r}
+B
+rownames(B) <- NULL
+colnames(B) <- NULL
+```
+
+How to replace specifc element of a matrix:
+let's say you wish to change a value
+step1: check existing value
+```{r}
+B[2,2]
+```
+step2: change value
+```{r}
+B[2,2] <- 211
+```
+step3: check if matrix has changed
+```{r}
+B
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+

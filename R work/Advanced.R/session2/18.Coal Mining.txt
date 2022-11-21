@@ -1,0 +1,53 @@
+                            Coal Mining
+It's important for you to know as how important it is to have domain knowledge when you are analysing a data.
+
+More important, you can easily acquire this domain knowledge to speed up your analysis.
+                          The challenge-
+You have been hired by a Coal Terminal to assess which of their Coal 
+Reclaimer machines require maintenance in the upcoming month.
+ 
+These machines run literally round the clock 24/7 for 365 days a year. Every minute of downtime equates to "millions of dollars" lost revenue, that is why it is crucial to identify exactly when these machines require repair maintenance (neither less or more frequently is acceptable).
+
+Currently the Coal Terminal follows the following criterion: a reclaimer-type machine requires maintenance when within the previous month there was at least one 8-hour period when the average idle capacity was over 10%.
+
+Idle Capacity is a utilization metric which, for the purpose of this project, is defined as:
+    Idle Capacity = (Actual Tonnage - Nominal Capacity)/Nominal Capacity
+
+Your task is to find out which of the 5 machines have exceeded this level and create a report for the executive stakeholders with your recommendations
+                      Step1 - Understand the Challenge
+ Find the machines where the idle capacity (%decrease in output) exceeds 10% within 8 hour timeline. 
+ 
+                      Step2 - Acquiring the Domain knowledge
+Bowen Basin is one of the biggest coal mining basin in the World (situated in Australia). The place contains lots of different kind of coal. 
+This coal is mined by different companies and is then put on train, which carry them to the coast and then, shipped to different destinations. A single train can carry upto 10,000 - 12,000 tonnes of coal.
+
+These oceans they have ports which have coal terminals.
+What is a coal terminal, you ask?
+Within  every port (port is an "area" on the harbor where ships are docked) there are terminals (zones for specific activity). Like coal terminal (for loading and unloading coal on/from ships), fish terminal (for loading and unloading fish business operations), passenger terminal (for travel).
+
+From the coal terminal, the coal is exported to different destination.
+
+Within Australia, there are different coal checkpoints (also known as coal terminals).But for this study we will be focusing on Dalrymple Bay Coal Terminal (DBCT). 
+The basic operation: Train offload the coal on the conveyor belts, which take it to the stock yard (place where it is stock piled). And, based on the loading time, it is further sent all the way to the jetty (again using conveyor belt) where it is loaded onto ships and lastly, these ships take it to its purchase point (countries that are importing coal).
+
+Why do the machines need to stock-pile the coal at stock yard and then take it to the jetty?? why not sent it directly??
+Sometimes coal is sent directly. But most of the time, stock-piling and ship departure os happening at a different time. So, if ship (on which you are supposed to load) hasn't arrived yet, there is no point to take coal at the jetty. Plus, companies stock pile the coal in advance so that shipment is not delayed. 
+Little fun fact, coal extracting companies have contracts with the ship companies. Hence every minute of the ship's idle-time is costing coal companies a penalty of sort. And this penalty could amount to hundreds or thousands of dollars per minute.
+Some time coal is blended (mixing different kinds of coal) at the jetty. So, you must have these different kinds of coal stocked in your stock yard for them to be put in use when the time arrives. So inevitably you are going to need a stock-yard.
+Coal terminals operate 24/7 for 365 days a year(even Christmas). Every minute of operation cost money... They need to manage the trains, the conveyor belts, the stock-yard activites and conveyor belt (one that takes coal to the jetty), machines that blend coal to its requirement at the jetty and finally, ship loading. Complicated, busy fucking business.
+
+Ships are massive... can carry between 20,000 tonnes and 200,000 tonne of dead weight (dead weight include - cargo, ballast, the people and everything else that is on the ship).
+The coal terminals (unloading from train, conveyor, stockyard) process round about 85 million tonnes of coal per year. May not sound much, but that in itself is incredible. think about it..One ship can carry 20,000 tonnes... of course terminals process way too much for that standard, considering many ships load per day.
+
+Our challenge is about machines that are operating at the coal terminal. Mostly about need for maintenance. Three main machines - the stacker, "ST" (stack up the coal), the reclaimer, "RL" (contains a wheel which bucket that spins and lift coal from the stack and then send it back to the conveyor), stacker and reclaimer, "SR"(just like the name suggest, can do both operations simulaneously)
+Wait a minute, haven't we said machines run 24/7, so if machine undergo maintenance checks, then aren't they not running?? For maintenance, they need to be stopped, but companies do use analytics as to figure out when? And the 'when' is based on their performance.
+Once you know their output is compromised, they have no choice but to overhaul it... they will need to stop them.
+
+
+
+
+
+
+
+
+

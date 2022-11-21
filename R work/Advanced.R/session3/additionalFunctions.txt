@@ -1,0 +1,8 @@
+                        list of functions to remember
+a. rowMeans
+b. colMeans
+c. rowSums
+d. colSums
+e. t  #used to find transpose
+f. rbind #used to form matrix by adding vectors in rows
+

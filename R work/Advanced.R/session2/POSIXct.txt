@@ -1,0 +1,51 @@
+            What is POSIX and why it is used
+1.POSIXct is a standard for time - it measure time and then stores time 
+#as the number of seconds that passed from the start of the year 1970
+2. so you can say that POSIXct is a integer data-type- which means POSIXct gives you an integer vector (seconds, minute are numeric vectors)
+
+#
+#...........................
+#..................converting 'Timeline' into POSIXct 
+#(as present timeline is arbitrary)
+
+#SYNTAX :
+POSIIXct(object you wish to format, format ="",tz="")
+as.POSIXct(util$Timestamp, format = "%d/%m/%Y %H:%M")
+
+#the present date time format looks like this:
+#30/09/16 22:00
+#"date- 30/09/16"(space)"time-22:00"
+
+#so you must specify a similar format in POSIXct, 
+#but here you will be confident as to what tells what
+#e.g. you will know if 22:00 is hour:minute
+#e.g. you will know if 30/09/16 is European time format (%d/%m/%Y)
+
+#..................designations used in the formula of POSIXct
+#use lower case for date,month and year
+#%d is used for date, 
+#/ is used as a separator
+#%m is used for month
+#...............year 
+#if year is represented in four digits(2016) then use Capital "Y" - %Y
+#if year is represented in two digits(16) then use lower-case "y" - %y
+#................
+# %H is used for hour (H is capital)
+# %M is used for minute (M is capital)
+#.........................................
+
+Another example :
+#if you have "1968-12-15 20:01:16 UTC" will be written as:-
+#................
+POSIXct("1969-12-31 23:59:59", format = "%Y-%m-%d %H:%M:%S", tz = "UTC") 
+#................
+here, the object is "1969-12-31 23:59:59"
+
+                      problem with POSIXct
+#last day of the year(1969-12-31) with "last second left"-23:59:59
+#POSIXct("1969-12-31 23:59:59", format = "%Y-%m-%d %H:%M:%S", tz = "UTC") 
+The above code can result an error or give you NA in return or it may modify the time presented in the format by itself (implicit coercion)
+#may give NA, or  as.POSIXct("1969-12-31 23:59:59", tz = "UTC") 
+#will give "1969-12-31 23:59:00". (23:59:00 is the changed value)
+#Other OSes (including the code used by R on Windows) report errors separately 
+#and so are able to handle that time as valid

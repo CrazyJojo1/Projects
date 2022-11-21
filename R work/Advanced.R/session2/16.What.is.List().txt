@@ -1,0 +1,50 @@
+#what is a list?
+1. it is a data structure in R
+2. very similar to vectors
+#But???
+1.They can store any type of data in them
+#e.g. Data frame can be stored into a list
+#e.g. character vector and numeric vector together with data frame can be stored into a list
+#e.g. you can also have a matrix and data frame in a list
+#e.g. you can have plot inside a list
+
+#why to use list??
+1. Storing data
+2. Into a single list, you can store a matrix, data-frame, vector of different data type, and a plot.
+#So,
+3. list is more like a directory in itself.
+
+
+#What we will study here?
+1. how to use list for storing data
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,52 @@
+
+
+-.................what is tidyverse
+-Tidyverse refers to the group of packages
+-all these packages share common philosophy
+-the philosophy underlines how deal with data, manage data and visualize it.
+
+-creator of tidyverse is Hadley Wickham
+
+-tidyverse contains collection of packages for data science
+-these packages share similar grammar of graphics and data structures
+
+Tidyverse packages:-
+-ggplot2 (data visualization)
+-dplyr (data manipulation)
+-readr (data structures, data import and export)
+-stingr (string manipulation)
+-purrr (function of programming)
+-for cats (Data frame)
+-tidyr
+-tidy model packages (subsystem of tidyverse package) - for machine learning
+
+-Tidyverse has subsystem within it:
+-this subsystem specializes in modeling and machine learning.
+-These models are 'tidy models'.
+
+
+-read more on:
+- https://www.tidyverse.org/
+
+-In data science there are lot of task and domains that 
+-you need to integrate with one another
+-so it is best to have similar grammar shared by all these packages
+
+-that simplify your work as it is easy to integrate work.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

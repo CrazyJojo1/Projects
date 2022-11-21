@@ -1,0 +1,49 @@
+
+How to deal with Missing Data
+
+1st Approach:- Predict with 100% Accuracy
+#e.g. Profit is missing. but you have data for revenue and expense
+#profit = revenue - expenses
+
+2nd Approach:-leave record as is
+#Leave the cell empty.
+#Do this if that column with missing data is not important for your analysis
+
+3rd Approach :- Remove record entirely
+#Remove that entire row.
+#cons: it will decrease the number of observations(rows)
+
+4th Approach(approach used in this course) :- Replace with mean or median
+#median is preferred over mean as median is less affected by outliers.
+
+5th Approach :- Fill in by exploring correlations and similarities
+
+6th Approach :- Introduce dummy variable for "Missingness"
+
+5th and 6th approach are advanced approaches and will not be covered in this course. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,43 @@
+                      Weather Patterns - Project Brief
+
+- You are working on a project for a meterology bureau. 
+- You have been supplied weather data fro 4 cities in US : Chicago, NewYork, Houston, and SanFrancisco.
+ 
+-You are required to deliver the following outputs: 
+1. A table with annual averages of each observed metric for every city. - 
+solution - (to find annual average, you would need to sum the averages of each month/12)
+
+2. A table showing : How much temperature fluctuates each month from min to max.(in %)
+solution -(find the temperature difference. Take min. temperature as the base.
+To calculate this find (min-max)/min - you are basically calculating the relative fluctuation in temperature w.r.t. the minimum temperature.)
+
+3. A table showing the annual maximums of each observed metric for every city.
+
+4. A table showing the annual minimums of each observed metric for every city.
+
+5. A table showing in which months the annual maximums of each metric were observed in every city 
+
+how to create a (°) in R - (use option + shift + 8 to add degree sign)
+
+What do you see in your data
+- you have °C - european (metric system)
+- and you have same data in °F - American (imperical system)
+
+We have five metric
+- avg. temperature high for each month 
+- avg. temperature low for each month
+- avg. rainfall(mm) in each month
+- How many days in a given month experienced rainfall
+- how many hours of sunshine was observed for each month.
+
+In this project.... we will be using °F charts
+
+Where has the Data come from?
+- Data is for 30 year timeline
+- Data for Chicago, Houston and San Francisco were measured from 1980-2010(30 yr.)
+- New York was from 1960 - 1990 (30 yr.)
+
+So avg. reading for temperature, rainfall is the average for that 30 year time-lin and they calcualted average based on months
+- e.g. for 30 years, January avg. temp high was .......... and so on...
+- e.g. how many rainy days on average were experienced in the month of Dec for a time-period of 30 years
+

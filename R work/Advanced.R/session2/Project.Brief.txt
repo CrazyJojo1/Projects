@@ -1,0 +1,14 @@
+                          Profit brief
+
+#you need to investigate one of the heavy machines - RL1
+
+#Data is for one month
+#it shows what percentage capacity of each machine was idle (unused) in a given hour
+#You need to deliver an R list with the following components:
+
+#1. machine name - single character vector
+#2. (min, mean , max) utilization for the month (exclude unknown hours) - numeric vector
+#3. has utilization even fallen below 90%? - logical vector
+#4. find hours where utilization is unknown (NA's) - numeric vector (use subsetting and is.na())
+#5. Build data-frame for "RL1 machine" - Data-Frame
+#6. Plot for "all" the machines - Plot

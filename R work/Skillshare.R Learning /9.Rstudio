@@ -1,0 +1,29 @@
+
+
+Features of Rstudio-
+1. console - quickest way to interact with R
+2. Terminal - it is terminal to your computer (command prompt to your OS)
+3. Jobs - ? 
+
+#Scripting
+4. search feature - cmd + F (allows you to replace matching words quickly)
+#menu 
+5.Tools >Global Options... (cmd + ,)
+- Appearance : this allows you to change color,fontsize and font type of your Rstudio environment
+- Pane layout : it allows you to change the arrangement of panes
+e.g. Console could be placed on the right (place where you see golbal environment), etc..
+- Code : Vim keybinding 
+- Spelling - inbuilt spell check
+
+#using Help
+-let's say you wish to see the documentation for a function (print())
+-Syntax: help("fuction name")
+-help("print")
+-run above code in console or R scriptin environ and 
+-this will open help pop-up window explaining print()
+
+
+
+
+
+
